@@ -1,17 +1,16 @@
-import Image from "next/image";
+"use client";
+
 import styles from "./page.module.css";
 import { trpc } from "./trpc";
 
-export default async function Home() {
-  const greet = await trpc.hello.query({ name: `from Nest.js` });
+export default function Home() {
+  const greet = trpc.hello.useQuery({ name: `from Nest.js` });
 
   return (
     <main className={styles.main}>
       <div>
         <h1>Hello, world</h1>
-        <p>{greet.greeting}</p>
-        <br />
-        <a href="/client">ClientSide</a>
+        <p>{greet.isLoading ? "Loading..." : greet.data?.greeting}</p>
       </div>
     </main>
   );
